@@ -183,62 +183,85 @@ function OEHeader(props) {
   };
   const generateMenuItems = (menuItem, index, level, path) => {
     if (menuItem.menu.isActive) {
-      if (level === 0 && menuItem.childMenus.length > 0) {
-        return (
-          <span id={menuItem.menu.elementId} key={path}>
-            <span
-              id={menuItem.menu.elementId + "_dropdown"}
-              onClick={(e) => {
-                setMenuItemExpanded(e, menuItem, path);
-              }}
-            >
-              <SideNavMenu
+      // Check if it has exactly one child menu
+      const hasOneChild = menuItem.childMenus.length === 1 && 
+                         menuItem.childMenus[0].menu.isActive;
+      
+      if (level === 0) {
+        // If it has exactly one active child, create direct link to child's URL
+        if (hasOneChild) {
+          const childMenu = menuItem.childMenus[0];
+          return (
+            <span key={path} id={menuItem.menu.elementId}>
+              <SideNavMenuItem
+                id={menuItem.menu.elementId + "_nav"}
+                href={childMenu.menu.actionURL}
+                target={childMenu.menu.openInNewWindow ? "_blank" : ""}
                 className="top-level-menu-item"
-                aria-label={intl.formatMessage({
-                  id: menuItem.menu.displayKey,
-                })}
-                title={intl.formatMessage({
-                  id: menuItem.menu.displayKey,
-                })}
-                key={"menu_" + index + "_" + level}
-                defaultExpanded={menuItem.expanded}
-                // onClick={(e) => { // not supported yet, but if it becomes so we can simplify the functionality here by having this here and not have a span around it
-                //   setMenuItemExpanded(e, menuItem, path);
-                // }}
               >
-                <span
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                  }}
-                >
-                  {menuItem.childMenus.map((childMenuItem, index) => {
-                    return generateMenuItems(
-                      childMenuItem,
-                      index,
-                      level + 1,
-                      path + ".childMenus[" + index + "]",
-                    );
-                  })}
-                </span>
-              </SideNavMenu>
+                {renderSideNavMenuItemLabel(menuItem, level)}
+              </SideNavMenuItem>
             </span>
-          </span>
-        );
-      } else if (level === 0) {
-        return (
-          <span key={path} id={menuItem.menu.elementId}>
-            <SideNavMenuItem
-              id={menuItem.menu.elementId + "_nav"}
-              href={menuItem.menu.actionURL}
-              target={menuItem.menu.openInNewWindow ? "_blank" : ""}
-              className="top-level-menu-item"
-            >
-              {renderSideNavMenuItemLabel(menuItem, level)}
-            </SideNavMenuItem>
-          </span>
-        );
+          );
+        }
+        // If it has multiple children, keep the dropdown menu
+        else if (menuItem.childMenus.length > 0) {
+          return (
+            <span id={menuItem.menu.elementId} key={path}>
+              <span
+                id={menuItem.menu.elementId + "_dropdown"}
+                onClick={(e) => {
+                  setMenuItemExpanded(e, menuItem, path);
+                }}
+              >
+                <SideNavMenu
+                  className="top-level-menu-item"
+                  aria-label={intl.formatMessage({
+                    id: menuItem.menu.displayKey,
+                  })}
+                  title={intl.formatMessage({
+                    id: menuItem.menu.displayKey,
+                  })}
+                  key={"menu_" + index + "_" + level}
+                  defaultExpanded={menuItem.expanded}
+                >
+                  <span
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                    }}
+                  >
+                    {menuItem.childMenus.map((childMenuItem, index) => {
+                      return generateMenuItems(
+                        childMenuItem,
+                        index,
+                        level + 1,
+                        path + ".childMenus[" + index + "]",
+                      );
+                    })}
+                  </span>
+                </SideNavMenu>
+              </span>
+            </span>
+          );
+        }
+        // If it has no children, keep as direct link
+        else {
+          return (
+            <span key={path} id={menuItem.menu.elementId}>
+              <SideNavMenuItem
+                id={menuItem.menu.elementId + "_nav"}
+                href={menuItem.menu.actionURL}
+                target={menuItem.menu.openInNewWindow ? "_blank" : ""}
+                className="top-level-menu-item"
+              >
+                {renderSideNavMenuItemLabel(menuItem, level)}
+              </SideNavMenuItem>
+            </span>
+          );
+        }
       } else {
+        // Keep existing nested menu behavior
         return (
           <span id={menuItem.menu.elementId} key={path}>
             <SideNavMenuItem
@@ -284,6 +307,7 @@ function OEHeader(props) {
       return <React.Fragment key={path}></React.Fragment>;
     }
   };
+
 
   const hasActiveChildMenu = (menuItem) => {
     if (menuItem.menu.elementId === "menu_reports_routine") {
