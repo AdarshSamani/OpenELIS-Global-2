@@ -802,7 +802,7 @@
 						</goals>
 					</execution>
 
-					<!-- Generate Coverage Report (CSV) -->
+					<!-- Generate XML and CSV Reports -->
 					<execution>
 						<id>report-integration</id>
 						<phase>verify</phase>
@@ -811,7 +811,8 @@
 						</goals>
 						<configuration>
 							<formats>
-								<format>CSV</format>  <!-- Generates CSV instead of HTML/XML -->
+								<format>XML</format>  <!-- Needed for total percentage calculation -->
+								<format>CSV</format>  <!-- Raw CSV data -->
 							</formats>
 							<outputDirectory>${project.build.directory}/jacoco-reports</outputDirectory>
 						</configuration>
