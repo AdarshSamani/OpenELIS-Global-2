@@ -15,7 +15,7 @@
         <class>org.openelisglobal.security.converter.EncryptionConverter</class>
 
         <!-- entities -->
-        <!-- <class>org.openelisglobal.analysis.valueholder.Analysis</class> -->
+        <class>org.openelisglobal.analysis.valueholder.Analysis</class>
         <class>org.openelisglobal.analyzer.valueholder.AnalyzerExperiment</class>
         <class>org.openelisglobal.login.valueholder.LoginUser</class>
         <class>org.openelisglobal.gender.valueholder.Gender</class>
