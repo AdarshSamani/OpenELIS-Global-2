@@ -73,7 +73,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
         "org.openelisglobal.observationhistorytype", "org.openelisglobal.statusofsample", "org.openelisglobal.test",
         "org.openelisglobal.analyzerimport", "org.openelisglobal.analyzer", "org.openelisglobal.testanalyte",
         "org.openelisglobal.observationhistory", "org.openelisglobal.systemusersection",
-        "org.openelisglobal.siteinformation", "org.openelisglobal.config" }, excludeFilters = {
+        "org.openelisglobal.siteinformation", "org.openelisglobal.config", "org.openelisglobal.analysis", 
+        "org.openelisglobal.typeofsample" }, excludeFilters = {
                 @ComponentScan.Filter(type = FilterType.REGEX, pattern = "org.openelisglobal.patient.controller.*"),
                 @ComponentScan.Filter(type = FilterType.REGEX, pattern = "org.openelisglobal.organization.controller.*"),
                 @ComponentScan.Filter(type = FilterType.REGEX, pattern = "org.openelisglobal.sample.controller.*"),
@@ -224,18 +225,6 @@ public class AppTestConfig implements WebMvcConfigurer {
     @Profile("test")
     public TestResultService testResultService() {
         return mock(TestResultService.class);
-    }
-
-    @Bean()
-    @Profile("test")
-    public TypeOfSampleTestService typeOfSampleTestService() {
-        return mock(TypeOfSampleTestService.class);
-    }
-
-    @Bean()
-    @Profile("test")
-    public TypeOfSampleService typeOfSample() {
-        return mock(TypeOfSampleService.class);
     }
 
     @Bean()
