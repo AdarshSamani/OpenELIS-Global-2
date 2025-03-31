@@ -19,7 +19,7 @@ import {
   TableHeader,
   TableRow,
   TableSelectRow,
-  TextInput
+  TextInput,
 } from "@carbon/react";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
@@ -443,7 +443,7 @@ function DictionaryManagement() {
                 md={8}
                 sm={4}
                 style={{
-                  display: "flex", 
+                  display: "flex",
                   gap: "0.4rem",
                 }}
               >
@@ -553,7 +553,7 @@ function DictionaryManagement() {
                 <h4
                   style={{
                     margin: 0,
-                    fontSize: window.innerWidth < 768 ? "0.875rem" : "1rem", 
+                    fontSize: window.innerWidth < 768 ? "0.875rem" : "1rem",
                     whiteSpace: "nowrap",
                   }}
                 >
