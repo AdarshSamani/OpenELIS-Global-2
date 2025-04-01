@@ -13,6 +13,8 @@ import org.openelisglobal.audittrail.dao.AuditTrailService;
 import org.openelisglobal.citystatezip.service.CityStateZipService;
 import org.openelisglobal.common.services.IStatusService;
 import org.openelisglobal.common.services.PluginAnalyzerService;
+import org.openelisglobal.common.services.IReportTrackingService;
+import org.openelisglobal.common.services.RequesterService;
 import org.openelisglobal.common.util.Versioning;
 import org.openelisglobal.dataexchange.fhir.FhirConfig;
 import org.openelisglobal.dataexchange.fhir.FhirUtil;
@@ -30,7 +32,6 @@ import org.openelisglobal.referral.service.ReferralService;
 import org.openelisglobal.referral.service.ReferralSetService;
 import org.openelisglobal.reports.service.WHONetReportServiceImpl;
 import org.openelisglobal.requester.service.RequesterTypeService;
-import org.openelisglobal.sampleqaevent.service.SampleQaEventService;
 import org.openelisglobal.testresult.service.TestResultService;
 import org.openelisglobal.typeofsample.service.TypeOfSampleService;
 import org.openelisglobal.typeofsample.service.TypeOfSampleTestService;
@@ -74,7 +75,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
         "org.openelisglobal.analyzerimport", "org.openelisglobal.analyzer", "org.openelisglobal.testanalyte",
         "org.openelisglobal.observationhistory", "org.openelisglobal.systemusersection",
         "org.openelisglobal.siteinformation", "org.openelisglobal.config", "org.openelisglobal.analysis", 
-        "org.openelisglobal.typeofsample" }, excludeFilters = {
+        "org.openelisglobal.typeofsample", "org.openelisglobal.qaevent", "org.openelisglobal.sampleproject",
+        "org.openelisglobal.project", "org.openelisglobal.sampleqaevent" }, excludeFilters = {
                 @ComponentScan.Filter(type = FilterType.REGEX, pattern = "org.openelisglobal.patient.controller.*"),
                 @ComponentScan.Filter(type = FilterType.REGEX, pattern = "org.openelisglobal.organization.controller.*"),
                 @ComponentScan.Filter(type = FilterType.REGEX, pattern = "org.openelisglobal.sample.controller.*"),
@@ -97,8 +99,20 @@ public class AppTestConfig implements WebMvcConfigurer {
 
     @Bean()
     @Profile("test")
+    public RequesterService requesterService() {
+        return mock(RequesterService.class);
+    }
+
+    @Bean()
+    @Profile("test")
     public PluginAnalyzerService pluginAnalyzerService() {
         return mock(PluginAnalyzerService.class);
+    }
+
+    @Bean()
+    @Profile("test")
+    public IReportTrackingService iReportTrackingService() {
+        return mock(IReportTrackingService.class);
     }
 
     @Bean()
@@ -153,12 +167,6 @@ public class AppTestConfig implements WebMvcConfigurer {
     @Profile("test")
     public BasicAuthenticationDataService basicAuthDataService() {
         return mock(BasicAuthenticationDataService.class);
-    }
-
-    @Bean()
-    @Profile("test")
-    public SampleQaEventService sampleQaEventService() {
-        return mock(SampleQaEventService.class);
     }
 
     @Bean()

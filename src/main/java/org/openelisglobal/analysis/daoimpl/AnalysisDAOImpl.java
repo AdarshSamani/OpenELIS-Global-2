@@ -498,7 +498,7 @@ public class AnalysisDAOImpl extends BaseDAOImpl<Analysis, String> implements An
         try {
             String sql = "from Analysis a where a.parentResult = :param and a.status NOT IN (:param2)";
             Query<Analysis> query = entityManager.unwrap(Session.class).createQuery(sql, Analysis.class);
-            query.setParameter("param", result.getId());
+            query.setParameter("param", Integer.parseInt(result.getId()));
             List<String> statusesToExclude = new ArrayList<>();
             statusesToExclude.add(ConfigurationProperties.getInstance().getPropertyValue("analysis.status.canceled"));
             query.setParameterList("param2", statusesToExclude);
@@ -519,7 +519,7 @@ public class AnalysisDAOImpl extends BaseDAOImpl<Analysis, String> implements An
                     + "and a.status NOT IN (:param2) " + "order by a.test.id, a.revision desc";
 
             Query<Analysis> query = entityManager.unwrap(Session.class).createQuery(sql, Analysis.class);
-            query.setParameter("param", sampleItem.getId());
+            query.setParameter("param", Integer.parseInt(sampleItem.getId()));
             List<String> statusesToExclude = new ArrayList<>();
             statusesToExclude.add(ConfigurationProperties.getInstance().getPropertyValue("analysis.status.canceled"));
             query.setParameterList("param2", statusesToExclude);
@@ -544,7 +544,7 @@ public class AnalysisDAOImpl extends BaseDAOImpl<Analysis, String> implements An
                     + "order by a.test.id, a.revision desc";
 
             Query<Analysis> query = entityManager.unwrap(Session.class).createQuery(sql, Analysis.class);
-            query.setParameter("param", sampleItem.getId());
+            query.setParameter("param", Integer.parseInt(sampleItem.getId()));
             return query.list();
         } catch (RuntimeException e) {
             LogEvent.logError(e);
@@ -562,7 +562,7 @@ public class AnalysisDAOImpl extends BaseDAOImpl<Analysis, String> implements An
                     + "and a.status NOT IN (:param2) " + "order by a.test.id, a.revision desc";
 
             Query<Analysis> query = entityManager.unwrap(Session.class).createQuery(sql, Analysis.class);
-            query.setParameter("param", sampleItem.getId());
+            query.setParameter("param", Integer.parseInt(sampleItem.getId()));
             List<String> statusesToExclude = new ArrayList<>();
             statusesToExclude.add(ConfigurationProperties.getInstance().getPropertyValue("analysis.status.canceled"));
             query.setParameterList("param2", statusesToExclude);
@@ -591,8 +591,8 @@ public class AnalysisDAOImpl extends BaseDAOImpl<Analysis, String> implements An
             }
 
             Query<Analysis> query = entityManager.unwrap(Session.class).createQuery(sql, Analysis.class);
-            query.setParameter("param", sampleItem.getId());
-            query.setParameter("param2", test.getId());
+            query.setParameter("param", Integer.parseInt(sampleItem.getId()));
+            query.setParameter("param2", Integer.parseInt(test.getId()));
             List<String> statusesToExclude = new ArrayList<>();
             statusesToExclude.add(ConfigurationProperties.getInstance().getPropertyValue("analysis.status.canceled"));
             query.setParameterList("param3", statusesToExclude);
@@ -613,7 +613,7 @@ public class AnalysisDAOImpl extends BaseDAOImpl<Analysis, String> implements An
                     + "order by a.sampleItem.sample.accessionNumber";
 
             Query<Analysis> query = entityManager.unwrap(Session.class).createQuery(sql, Analysis.class);
-            query.setParameter("param", test.getId());
+            query.setParameter("param", Integer.parseInt(test.getId()));
 
             List<String> statusesToExclude = new ArrayList<>();
             statusesToExclude.add(ConfigurationProperties.getInstance().getPropertyValue("analysis.status.canceled"));
@@ -773,7 +773,7 @@ public class AnalysisDAOImpl extends BaseDAOImpl<Analysis, String> implements An
                     + "        anal.id = res.analysis_id and\n" + "        anal.test_id = test.id and\n"
                     + "        anal.sampitem_id = sampitem. id and\n" + "        sampitem.samp_id = samp.id\n"
                     + "        and anal.printed_date is not null";
-            return entityManager.unwrap(Session.class).createNativeQuery(sql).setParameter("sampleId", sample.getId())
+            return entityManager.unwrap(Session.class).createNativeQuery(sql).setParameter("sampleId", Integer.parseInt(sample.getId()))
                     .list();
         } catch (RuntimeException e) {
             LogEvent.logError(e);
@@ -883,7 +883,7 @@ public class AnalysisDAOImpl extends BaseDAOImpl<Analysis, String> implements An
                 }
             }
 
-            query.setParameter("param", String.valueOf((revision - 1)));
+            query.setParameter("param", Integer.parseInt(String.valueOf((revision - 1))));
             query.setParameter("param2", analysis.getSampleItem());
             query.setParameter("param3", analysis.getTest());
 
@@ -911,12 +911,12 @@ public class AnalysisDAOImpl extends BaseDAOImpl<Analysis, String> implements An
             Analysis anal = null;
             String sql = "from Analysis a where (a.sampleItem.id, a.test.id, a.revision) IN "
                     + "(select b.sampleItem.id, b.test.id, max(b.revision) from Analysis b "
-                    + "group by b.sampleItem.id, b.test.id) " + "and a.sampleItem = :param "
-                    + "and a.status NOT IN (:param3) " + "and a.test = :param2";
+                    + "group by b.sampleItem.id, b.test.id) " + "and a.sampleItem.id = :param "
+                    + "and a.status NOT IN (:param3) " + "and a.test.id = :param2";
 
             Query<Analysis> query = entityManager.unwrap(Session.class).createQuery(sql, Analysis.class);
-            query.setParameter("param", analysis.getSampleItem().getId());
-            query.setParameter("param2", analysis.getTest().getId());
+            query.setParameter("param", Integer.parseInt(analysis.getSampleItem().getId()));
+            query.setParameter("param2", Integer.parseInt(analysis.getTest().getId()));
             List<String> statusesToExclude = new ArrayList<>();
             statusesToExclude.add(ConfigurationProperties.getInstance().getPropertyValue("analysis.status.canceled"));
             query.setParameterList("param3", statusesToExclude);
@@ -949,7 +949,7 @@ public class AnalysisDAOImpl extends BaseDAOImpl<Analysis, String> implements An
                     + "order by a.test.id, a.revision desc";
 
             Query<Analysis> query = entityManager.unwrap(Session.class).createQuery(sql, Analysis.class);
-            query.setParameter("param", sampleItem.getId());
+            query.setParameter("param", Integer.parseInt(sampleItem.getId()));
             List<String> statusesToExclude = new ArrayList<>();
             statusesToExclude.add(ConfigurationProperties.getInstance().getPropertyValue("analysis.status.canceled"));
             query.setParameterList("param2", statusesToExclude);
@@ -990,7 +990,7 @@ public class AnalysisDAOImpl extends BaseDAOImpl<Analysis, String> implements An
             return getAnalysisStartedOn(collectionDate);
         }
 
-        String sql = "from Analysis a where a.startedDate = :startedDate and a.statusId not in ( :statusList )";
+        String sql = "from Analysis a where DATE(a.startedDate) = DATE(:startedDate) and a.statusId not in ( :statusList )";
 
         try {
             Query<Analysis> query = entityManager.unwrap(Session.class).createQuery(sql, Analysis.class);

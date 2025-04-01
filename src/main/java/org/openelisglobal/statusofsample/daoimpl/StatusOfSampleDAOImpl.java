@@ -201,7 +201,7 @@ public class StatusOfSampleDAOImpl extends BaseDAOImpl<StatusOfSample, String> i
             String sql = "from StatusOfSample t where trim(lower(t.code)) = :param and trim(lower(t.statusType)) ="
                     + " :param2 and t.id != :param3";
             Query<StatusOfSample> query = entityManager.unwrap(Session.class).createQuery(sql, StatusOfSample.class);
-            query.setParameter("param", statusOfSample.getCode().toLowerCase().trim());
+            query.setParameter("param", Integer.parseInt(statusOfSample.getCode()));
             query.setParameter("param2", statusOfSample.getStatusType().toLowerCase().trim());
 
             // initialize with 0 (for new records where no id has been generated
@@ -210,7 +210,7 @@ public class StatusOfSampleDAOImpl extends BaseDAOImpl<StatusOfSample, String> i
             if (!StringUtil.isNullorNill(statusOfSample.getId())) {
                 statusOfSampleId = statusOfSample.getId();
             }
-            query.setParameter("param3", statusOfSampleId);
+            query.setParameter("param3", Integer.parseInt(statusOfSampleId));
 
             list = query.list();
 

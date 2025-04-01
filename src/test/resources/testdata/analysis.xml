@@ -1,11 +1,28 @@
 <?xml version='1.0' encoding='UTF-8'?> 
 
 <dataset>
+    
+
+<!-- System Users -->
+    <system_user id="1" login_name="testUser" last_name="Doe"
+        first_name="John" is_active="Y" is_employee="Y" />
+    <system_user id="109" login_name="anotherUser"
+        last_name="Smith" first_name="Alice" is_active="Y" is_employee="Y" />
+
+<!-- Notes -->
+    <note id="1" sys_user_id="1" reference_id="1"
+        reference_table="4" note_type="I" subject="Subject 1"
+        text="Note text here" lastupdated="2024-02-22 10:00:00" />
+    <note id="2" sys_user_id="109" reference_id="2"
+        reference_table="4" note_type="E" subject="Subject 2"
+        text="Another note text" lastupdated="2024-02-22 11:00:00" />
 
 <!-- Reference Tables -->
     <reference_tables id="1" name="ANALYSIS"
         keep_history="Y" is_hl7_encoded="N" lastupdated="2023-10-01 12:00:00" />
     <reference_tables id="2" name="RESULT"
+        keep_history="Y" is_hl7_encoded="N" lastupdated="2023-10-01 12:00:00" />
+    <reference_tables id="3" name="SAMPLE_QAEVENT"
         keep_history="Y" is_hl7_encoded="N" lastupdated="2023-10-01 12:00:00" />
 
 <!-- Dictionary Category Entries -->
@@ -21,6 +38,16 @@
         french="Localisation de Test 1" lastupdated="2023-12-01 12:00:00" /> 
     <localization id="2" english="Test Localization 2" 
         french="Localisation de Test 2" lastupdated="2023-12-01 12:00:00" />
+
+<!--method category entries -->
+    <method id="1" name="therapy" description="using therapy"
+        name_localization_id="1" reporting_description="" is_active="Y"
+        active_begin="2012-11-01" 
+        lastUpdated="2023-10-01 12:00:00" />
+    <method id="2" name="imagining" description="scanning the body"
+        name_localization_id="2" reporting_description="" is_active="N"
+        active_begin="2013-11-01" active_end="2013-12-01"
+        lastUpdated="2023-10-01 12:00:00" />
 
 <!-- Requester Type -->
     <requester_type id="1" requester_type="Internal" />
@@ -45,16 +72,11 @@
         lastUpdated="2023-12-01 12:00:00" />
 
 <!-- Type of Sample --> 
-    <type_of_sample id="1" description="Blood Sample" name_localization_id="1" 
+    <type_of_sample id="1" description="Blood" name_localization_id="1" local_abbrev="Variable" 
         lastupdated="2023-12-01 12:00:00" /> 
-    <type_of_sample id="2" description="Urine Sample" name_localization_id="2" 
+    <type_of_sample id="2" description="Urine" name_localization_id="2" local_abbrev="Variable"
         lastupdated="2023-12-01 12:00:00" />
 
-<!-- Status of Sample -->
-    <status_of_sample id="1" code="100" status_type="Received" 
-    lastupdated="2023-12-01 12:00:00" />
-    <status_of_sample id="2" code="200" status_type="In Progress" 
-    lastupdated="2023-12-01 12:00:00" />
 
 <!-- Test Section -->
     <test_section id="1" name="Chemistry" description="Chemical Testing Section" 
@@ -92,9 +114,13 @@
     <test id="1" description="Blood Chemistry Test" name="Blood Chem" guid="TEST-BLOOD-CHEM-001" 
         reporting_name_localization_id="1" name_localization_id="1" 
         test_section_id="1" lastupdated="2023-12-01 12:00:00" />
-    <test id="2" description="Bacterial Culture Test" name="Bacteria Culture" guid="TEST-BACT-CULT-001" 
+    <test id="2" description="Urine Culture Test" name="Bacteria Culture" guid="TEST-BACT-CULT-001" 
         reporting_name_localization_id="2" name_localization_id="2" 
         test_section_id="2" lastupdated="2023-12-01 12:00:00" />
+
+<!-- Type of Sample Test -->
+    <sampletype_test id="1" test_id="1" sample_type_id="1" />
+    <sampletype_test id="2" test_id="2" sample_type_id="2" />
 
 <!-- QA Event -->
     <qa_event id="1" is_holdable="Y" test_id="1" 
@@ -107,9 +133,9 @@
     <analyte id="2" name="Cholesterol" lastupdated="2023-12-01 12:00:00" />
 
 <!-- Result without Analysis FK-->
-    <result id="1" analyte_id="1" is_reportable="Y" value="1" 
+    <result id="1" analyte_id="1" is_reportable="Y" value="1" result_type="M" 
         lastupdated="2023-12-01 12:00:00" />
-    <result id="2" analyte_id="2" is_reportable="N" value="2"  
+    <result id="2" analyte_id="2" is_reportable="N" value="2" result_type="C"  
         lastupdated="2023-12-01 12:00:00" />
 
 <!-- Analysis -->
@@ -117,25 +143,19 @@
         status="A" started_date="2023-11-15 12:00:00" completed_date="2023-11-15 14:00:00" 
         released_date="2023-11-15 15:00:00" printed_date="2023-11-15 16:00:00" 
         is_reportable="Y" status_id="1" parent_analysis_id="1" parent_result_id="1" 
-        entry_date="2023-11-15 12:00:00" analysis_type="ROUTINE" 
+        entry_date="2023-11-15 12:00:00" analysis_type="ROUTINE" type_of_sample_name="Blood" 
         lastupdated="2023-12-01 12:00:00" />
     <analysis id="2" sampitem_id="2" test_sect_id="2" test_id="2" revision="2" 
         status="I" started_date="2023-11-16 12:00:00" completed_date="2023-11-16 14:00:00" 
         released_date="2023-11-16 15:00:00" printed_date="2023-11-16 16:00:00" 
         is_reportable="N" status_id="2" parent_analysis_id="2" parent_result_id="2" 
-        entry_date="2023-11-16 12:00:00" analysis_type="CONFIRM" 
-        lastupdated="2023-12-01 12:00:00" />
-
-<!-- Result with Analysis FK-->
-    <result id="3" analysis_id="1" 
-        lastupdated="2023-12-01 12:00:00" />
-    <result id="4" analysis_id="2"  
+        entry_date="2023-11-16 12:00:00" analysis_type="CONFIRM" type_of_sample_name="Urine"
         lastupdated="2023-12-01 12:00:00" />
 
 <!-- Test Analyte -->
-    <test_analyte id="1" test_id="1" is_reportable="Y" 
+    <test_analyte id="1" test_id="1" analyte_id="1" is_reportable="Y" result_group="1"
         lastupdated="2023-12-01 12:00:00" />
-    <test_analyte id="2" test_id="2" is_reportable="N" 
+    <test_analyte id="2" test_id="2" analyte_id="2" is_reportable="N" result_group="2"
         lastupdated="2023-12-01 12:00:00" />
 
 <!-- Analysis QA Event -->
@@ -144,4 +164,17 @@
     <analysis_qaevent id="2" qa_event_id="2" analysis_id="2" 
         completed_date="2023-11-16 14:00:00" lastupdated="2023-12-01 12:00:00" />
 
+<!-- Sample QA Event -->
+    <sample_qaevent id="1" sample_id="1" sampleitem_id="1" lastupdated="2023-12-01 12:00:00" />
+    <sample_qaevent id="2" sample_id="2" sampleitem_id="2" lastupdated="2023-12-01 12:00:00" />
+
+<!-- Document Track -->
+    <document_track id="1" document_type_id="4" table_id="1"
+        row_id="1" name="Test Doc 1"
+        report_generation_time="2024-03-06 10:00:00"
+        lastupdated="2024-03-06 10:00:00" />
+    <document_track id="2" document_type_id="1" table_id="1"
+        row_id="2" name="Test Doc 2"
+        report_generation_time="2024-03-06 11:00:00"
+        lastupdated="2024-03-06 11:00:00" />
 </dataset>

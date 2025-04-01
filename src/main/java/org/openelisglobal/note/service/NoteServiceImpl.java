@@ -195,7 +195,6 @@ public class NoteServiceImpl extends AuditableBaseObjectServiceImpl<Note, String
             String noteSeparator, boolean excludeExternPrefix, EncodeContext context) {
         List<Note> noteList = getNotesChronologicallyByRefIdAndRefTable(noteObject.getObjectId(),
                 noteObject.getTableId());
-
         return notesToString(noteObject, prefixType, prefixTimestamp, noteSeparator, noteList, excludeExternPrefix,
                 context);
     }

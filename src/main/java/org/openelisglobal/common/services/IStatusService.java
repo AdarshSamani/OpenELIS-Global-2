@@ -8,7 +8,9 @@ import org.openelisglobal.common.services.StatusService.SampleStatus;
 import org.openelisglobal.patient.valueholder.Patient;
 import org.openelisglobal.sample.valueholder.Sample;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.stereotype.Service;
 
+@Service
 public interface IStatusService {
     public boolean matches(String id, SampleStatus sampleStatus);
 

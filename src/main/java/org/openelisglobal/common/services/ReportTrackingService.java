@@ -26,9 +26,13 @@ import org.openelisglobal.sample.valueholder.Sample;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Service
 public class ReportTrackingService implements IReportTrackingService {
+    Logger logger = LoggerFactory.getLogger(getClass());
+
     public enum ReportType {
         PATIENT, NON_CONFORMITY_NOTIFICATION, RESULT_EXPORT, MALARIA_CASE
     }

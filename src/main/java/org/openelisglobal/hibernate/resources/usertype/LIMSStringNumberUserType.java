@@ -103,8 +103,17 @@ public class LIMSStringNumberUserType implements UserType {
     @Override
     public Object nullSafeGet(ResultSet rs, String[] names, SharedSessionContractImplementor session, Object owner)
             throws HibernateException, SQLException {
-        int value = rs.getInt(names[0]);
-        return rs.wasNull() ? null : String.valueOf(value);
+        try {
+            // Use getString first to handle potential NULL or non-numeric values
+            String stringValue = rs.getString(names[0]);
+            if (rs.wasNull() || stringValue == null || stringValue.trim().isEmpty()) {
+                return null;
+            }
+            return stringValue;
+        } catch (SQLException e) {
+            // Log the error or rethrow with more context
+            throw new HibernateException("Error converting column " + names[0] + " to string", e);
+        }
     }
 
     @Override
