@@ -55,20 +55,35 @@ import org.openelisglobal.test.valueholder.TestSection;
 import org.openelisglobal.typeofsample.service.TypeOfSampleTestService;
 import org.openelisglobal.userrole.service.UserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@DependsOn({ "springContext" })
 public class SampleEditServiceImpl implements SampleEditService {
 
     private static final String DEFAULT_ANALYSIS_TYPE = "MANUAL";
-    private static final String CANCELED_TEST_STATUS_ID;
-    private static final String CANCELED_SAMPLE_STATUS_ID;
+    private static String CANCELED_TEST_STATUS_ID;
+    private static String CANCELED_SAMPLE_STATUS_ID;
     private final String SAMPLE_SUBJECT = "Sample Note";
 
-    static {
-        CANCELED_TEST_STATUS_ID = SpringContext.getBean(IStatusService.class).getStatusID(AnalysisStatus.Canceled);
-        CANCELED_SAMPLE_STATUS_ID = SpringContext.getBean(IStatusService.class).getStatusID(SampleStatus.Canceled);
+    private static IStatusService getStatusService() {
+        return SpringContext.getBean(IStatusService.class);
+    }
+
+    public static String getCanceledTestStatusId() {
+        if (CANCELED_TEST_STATUS_ID == null) {
+            CANCELED_TEST_STATUS_ID = getStatusService().getStatusID(AnalysisStatus.Canceled);
+        }
+        return CANCELED_TEST_STATUS_ID;
+    }
+
+    public static String getCanceledSampleStatusId() {
+        if (CANCELED_SAMPLE_STATUS_ID == null) {
+            CANCELED_SAMPLE_STATUS_ID = getStatusService().getStatusID(SampleStatus.Canceled);
+        }
+        return CANCELED_SAMPLE_STATUS_ID;
     }
 
     @Autowired
@@ -453,7 +468,7 @@ public class SampleEditServiceImpl implements SampleEditService {
 
     private Analysis newOrExistingCanceledAnalysis(SampleEditItem sampleEditItem) {
         List<Analysis> canceledAnalysis = analysisService
-                .getAnalysesBySampleItemIdAndStatusId(sampleEditItem.getSampleItemId(), CANCELED_TEST_STATUS_ID);
+                .getAnalysesBySampleItemIdAndStatusId(sampleEditItem.getSampleItemId(), getCanceledTestStatusId());
 
         for (Analysis analysis : canceledAnalysis) {
             if (sampleEditItem.getTestId().equals(analysis.getTest().getId())) {
@@ -489,7 +504,7 @@ public class SampleEditServiceImpl implements SampleEditService {
         SampleItem item = sampleItemService.get(sampleItemId);
 
         if (item.getId() != null) {
-            item.setStatusId(CANCELED_SAMPLE_STATUS_ID);
+            item.setStatusId(getCanceledSampleStatusId());
             item.setSysUserId(sysUserId);
             return item;
         }

@@ -205,10 +205,14 @@
         lastupdated="2023-12-01 12:00:00" />
 
     <!-- Document Type -->
-    <document_type id="1" name="Test Type 1"
-        description="Test Document Type 1" lastupdated="2024-03-06 10:00:00" />
-    <document_type id="4" name="Test Type 2"
-        description="Test Document Type 2" lastupdated="2024-03-06 10:00:00" />
+    <document_type id="1" name="nonConformityNotification"
+        description="Non_Conformity reports to be sent to clinic" lastupdated="2024-03-06 10:00:00" />
+    <document_type id="2" name="resultExport"
+        description="Results sent electronically to other systems" lastupdated="2024-03-06 10:00:00" />
+    <document_type id="3" name="malariaCase"
+        description="malaria case report sent" lastupdated="2024-03-06 10:00:00" />
+    <document_type id="4" name="patientReport"
+        description="Any patient report, name in report_tracker" lastupdated="2024-03-06 10:00:00" />
 
     <!-- Document Track -->
     <document_track id="1" document_type_id="4" table_id="1"
