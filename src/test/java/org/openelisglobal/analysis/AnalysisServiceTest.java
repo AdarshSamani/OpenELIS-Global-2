@@ -25,6 +25,9 @@ import org.openelisglobal.panel.valueholder.Panel;
 import org.openelisglobal.reports.service.DocumentTrackService;
 import org.openelisglobal.result.service.ResultService;
 import org.openelisglobal.result.valueholder.Result;
+import org.openelisglobal.reports.valueholder.DocumentTrack;
+import org.openelisglobal.referencetables.service.ReferenceTablesService;
+import org.openelisglobal.referencetables.valueholder.ReferenceTables;
 import org.openelisglobal.sample.service.SampleService;
 import org.openelisglobal.sample.valueholder.OrderPriority;
 import org.openelisglobal.sample.valueholder.Sample;
@@ -77,6 +80,9 @@ public class AnalysisServiceTest extends BaseWebContextSensitiveTest {
 
     @Autowired
     private MethodService methodService;
+
+    @Autowired
+    private ReferenceTablesService referenceTablesService;
 
     @Before
     public void setUp() throws Exception {
@@ -428,42 +434,42 @@ public class AnalysisServiceTest extends BaseWebContextSensitiveTest {
     }
 
     // Getting null
-    // @Test
-    // public void patientReportHasBeenDone_shouldHandleNullAndValidAnalysis() {
-    // // Test null analysis
-    // // boolean nullResult = analysisService.patientReportHasBeenDone(null);
-    // // assertFalse(nullResult);
+    @Test
+    public void patientReportHasBeenDone_shouldHandleNullAndValidAnalysis() {
+    // Test null analysis
+    // boolean nullResult = analysisService.patientReportHasBeenDone(null);
+    // assertFalse(nullResult);
 
-    // // Valid analysis test
-    // Timestamp ts = Timestamp.valueOf("2024-03-06 10:00:00");
-    // Analysis analysis = analysisService.get("1");
-    // SampleItem sampleItem = sampleItemService.get("1");
-    // Sample sample = sampleService.get("1");
+    // Valid analysis test
+    Analysis analysis = analysisService.get("1");
+    SampleItem sampleItem = sampleItemService.get("1");
+    Sample sample = sampleService.get("1");
+    ReferenceTables refer1 = referenceTablesService.get("1");
+    ReferenceTables refer2 = referenceTablesService.get("2");
 
-    // sampleItem.setSample(sample);
-    // sampleItemService.update(sampleItem);
+    refer1.setTableName("SAMPLE");
+    referenceTablesService.update(refer1);
+    refer2.setTableName("ANALYSIS");
+    referenceTablesService.update(refer2);
 
-    // analysis.setSampleItem(sampleItem);
-    // analysisService.update(analysis);
+    sampleItem.setSample(sample);
+    sampleItemService.update(sampleItem);
 
-    // DocumentTrack dt = documentTrackService.get("1");
-    // dt.setTableId("1");
-    // dt.setDocumentTypeId("4");
-    // dt.setReportTime(ts);
-    // documentTrackService.update(dt);
+    analysis.setSampleItem(sampleItem);
+    analysisService.update(analysis);
 
-    // Analysis analysis1 = analysisService.get("1");
+    Analysis analysis1 = analysisService.get("1");
 
-    // // Test when report exists
-    // boolean reportExistsResult =
+    // Test when report exists
+    boolean reportExistsResult = analysisService.patientReportHasBeenDone(analysis1);
+    assertTrue(reportExistsResult);
+    // assertEquals("1", reportExistsResult.getId())
+
+    // Test when report doesn't exist
+    // boolean reportNotExistsResult =
     // analysisService.patientReportHasBeenDone(analysis1);
-    // assertTrue(reportExistsResult);
-
-    // // Test when report doesn't exist
-    // // boolean reportNotExistsResult =
-    // analysisService.patientReportHasBeenDone(analysis1);
-    // // assertFalse(reportNotExistsResult);
-    // }
+    // assertFalse(reportNotExistsResult);
+    }
 
     @Test
     public void getNotesAsString_shouldHandleNullAndValidAnalysis() {

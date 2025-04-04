@@ -57,6 +57,8 @@ public class AnalysisServiceImpl extends AuditableBaseObjectServiceImpl<Analysis
     private ReferenceTablesService referenceTablesService;
     @Autowired
     private NoteService noteService;
+    @Autowired
+    private IReportTrackingService iReportTrackingService;
 
     private static String TABLE_REFERENCE_ID;
     private final String DEFAULT_ANALYSIS_TYPE = "MANUAL";
@@ -265,7 +267,7 @@ public class AnalysisServiceImpl extends AuditableBaseObjectServiceImpl<Analysis
     @Override
     public boolean patientReportHasBeenDone(Analysis analysis) {
         return analysis == null ? false
-                : SpringContext.getBean(IReportTrackingService.class).getLastReportForSample(
+                : iReportTrackingService.getLastReportForSample(
                         analysis.getSampleItem().getSample(), ReportTrackingService.ReportType.PATIENT) != null;
     }
 

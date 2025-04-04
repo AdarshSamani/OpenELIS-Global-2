@@ -27,6 +27,7 @@ import org.openelisglobal.internationalization.MessageUtil;
 import org.openelisglobal.notification.service.AnalysisNotificationConfigService;
 import org.openelisglobal.notification.service.TestNotificationConfigService;
 import org.openelisglobal.organization.service.OrganizationTypeService;
+import org.openelisglobal.referral.fhir.service.FhirReferralService;
 import org.openelisglobal.referral.service.ReferralResultService;
 import org.openelisglobal.referral.service.ReferralService;
 import org.openelisglobal.referral.service.ReferralSetService;
@@ -72,10 +73,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
         "org.openelisglobal.observationhistorytype", "org.openelisglobal.statusofsample", "org.openelisglobal.test",
         "org.openelisglobal.analyzerimport", "org.openelisglobal.analyzer", "org.openelisglobal.testanalyte",
         "org.openelisglobal.observationhistory", "org.openelisglobal.systemusersection",
-        "org.openelisglobal.siteinformation", "org.openelisglobal.config", "org.openelisglobal.analysis",
-        "org.openelisglobal.typeofsample", "org.openelisglobal.qaevent", "org.openelisglobal.sampleproject",
-        "org.openelisglobal.project", "org.openelisglobal.sampleqaevent",
-        "org.openelisglobal.image" }, excludeFilters = {
+        "org.openelisglobal.siteinformation", "org.openelisglobal.typeofsample", "org.openelisglobal.qaevent", 
+        "org.openelisglobal.sampleproject", "org.openelisglobal.project", "org.openelisglobal.sampleqaevent",
+        "org.openelisglobal.image", "org.openelisglobal.common.services", "org.openelisglobal.referral" }, excludeFilters = {
                 @ComponentScan.Filter(type = FilterType.REGEX, pattern = "org.openelisglobal.patient.controller.*"),
                 @ComponentScan.Filter(type = FilterType.REGEX, pattern = "org.openelisglobal.organization.controller.*"),
                 @ComponentScan.Filter(type = FilterType.REGEX, pattern = "org.openelisglobal.sample.controller.*"),
@@ -83,6 +83,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
                 @ComponentScan.Filter(type = FilterType.REGEX, pattern = "org.openelisglobal.login.controller.*"),
                 @ComponentScan.Filter(type = FilterType.REGEX, pattern = "org.openelisglobal.program.controller.*"),
                 @ComponentScan.Filter(type = FilterType.REGEX, pattern = "org.openelisglobal.siteinformation.controller.*"),
+                @ComponentScan.Filter(type = FilterType.REGEX, pattern = "org.openelisglobal.analyzerimport.controller.*"),
+                @ComponentScan.Filter(type = FilterType.REGEX, pattern = "org.openelisglobal.qaevent.controller.*"),
+                @ComponentScan.Filter(type = FilterType.REGEX, pattern = "org.openelisglobal.refferal.controller.*"),
+                @ComponentScan.Filter(type = FilterType.REGEX, pattern = "org.openelisglobal.analyzerimport.action.*"),
                 @ComponentScan.Filter(type = FilterType.REGEX, pattern = "org.openelisglobal.config.*"),
                 @ComponentScan.Filter(type = FilterType.REGEX, pattern = "org.openelisglobal.fhir.*"),
                 @ComponentScan.Filter(type = FilterType.REGEX, pattern = "org.openelisglobal.*.fhir.*"),
@@ -96,23 +100,29 @@ public class AppTestConfig implements WebMvcConfigurer {
         return mock(TextEncryptor.class);
     }
 
-    @Bean()
+    @Bean
     @Profile("test")
-    public RequesterService requesterService() {
-        return mock(RequesterService.class);
+    public FhirReferralService fhirReferralService() {
+        return mock(FhirReferralService.class);
     }
 
-    @Bean()
-    @Profile("test")
-    public PluginAnalyzerService pluginAnalyzerService() {
-        return mock(PluginAnalyzerService.class);
-    }
+    // @Bean()
+    // @Profile("test")
+    // public RequesterService requesterService() {
+    //     return mock(RequesterService.class);
+    // }
 
-    @Bean()
-    @Profile("test")
-    public IReportTrackingService iReportTrackingService() {
-        return mock(IReportTrackingService.class);
-    }
+    // @Bean()
+    // @Profile("test")
+    // public PluginAnalyzerService pluginAnalyzerService() {
+    //     return mock(PluginAnalyzerService.class);
+    // }
+
+    // @Bean()
+    // @Profile("test")
+    // public IReportTrackingService iReportTrackingService() {
+    //     return mock(IReportTrackingService.class);
+    // }
 
     @Bean()
     @Profile("test")
@@ -198,11 +208,11 @@ public class AppTestConfig implements WebMvcConfigurer {
         return mock(AnalysisNotificationConfigService.class);
     }
 
-    @Bean()
-    @Profile("test")
-    public ReferralResultService ReferralResultService() {
-        return mock(ReferralResultService.class);
-    }
+    // @Bean()
+    // @Profile("test")
+    // public ReferralResultService ReferralResultService() {
+    //     return mock(ReferralResultService.class);
+    // }
 
     @Bean()
     @Profile("test")
@@ -210,17 +220,17 @@ public class AppTestConfig implements WebMvcConfigurer {
         return mock(CityStateZipService.class);
     }
 
-    @Bean()
-    @Profile("test")
-    public ReferralService referralService() {
-        return mock(ReferralService.class);
-    }
+    // @Bean()
+    // @Profile("test")
+    // public ReferralService referralService() {
+    //     return mock(ReferralService.class);
+    // }
 
-    @Bean()
-    @Profile("test")
-    public ReferralSetService ReferralSetService() {
-        return mock(ReferralSetService.class);
-    }
+    // @Bean()
+    // @Profile("test")
+    // public ReferralSetService ReferralSetService() {
+    //     return mock(ReferralSetService.class);
+    // }
 
     @Bean()
     @Profile("test")
@@ -269,11 +279,11 @@ public class AppTestConfig implements WebMvcConfigurer {
         return jsonConverter;
     }
 
-    @Bean()
-    @Profile("test")
-    public IStatusService iStatusService() {
-        return mock(IStatusService.class);
-    }
+    // @Bean()
+    // @Profile("test")
+    // public IStatusService iStatusService() {
+    //     return mock(IStatusService.class);
+    // }
 
     @Bean()
     @Profile("Test")

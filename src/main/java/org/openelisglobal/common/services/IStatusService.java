@@ -10,7 +10,6 @@ import org.openelisglobal.sample.valueholder.Sample;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service
 public interface IStatusService {
     public boolean matches(String id, SampleStatus sampleStatus);
 
