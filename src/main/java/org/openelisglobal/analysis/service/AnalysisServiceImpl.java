@@ -131,9 +131,6 @@ public class AnalysisServiceImpl extends AuditableBaseObjectServiceImpl<Analysis
             return "";
         }
         List<Result> existingResults = resultService.getResultsByAnalysis(analysis);
-        if (existingResults.isEmpty()) {
-            throw new RuntimeException("No results found for analysis with id: " + analysis.getId());
-        }
         StringBuilder multiSelectBuffer = new StringBuilder();
         for (Result existingResult : existingResults) {
             if (TypeOfTestResultServiceImpl.ResultType.isMultiSelectVariant(existingResult.getResultType())) {

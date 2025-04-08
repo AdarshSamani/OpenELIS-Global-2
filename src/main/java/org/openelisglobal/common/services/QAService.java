@@ -227,9 +227,6 @@ public class QAService {
 
             if (!nonconforming) {
                 nonconforming = hasOrderOnlyQaEventOrSampleQaEvent(sampleItem);
-                // if(true){
-                // throw new RuntimeException("Analysis is nonconforming"+nonconforming);
-                // }
             }
             return nonconforming;
         }
