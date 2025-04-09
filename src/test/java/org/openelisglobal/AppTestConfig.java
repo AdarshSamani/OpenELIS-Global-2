@@ -26,7 +26,6 @@ import org.openelisglobal.organization.service.OrganizationTypeService;
 import org.openelisglobal.referral.fhir.service.FhirReferralService;
 import org.openelisglobal.reports.service.WHONetReportServiceImpl;
 import org.openelisglobal.requester.service.RequesterTypeService;
-import org.openelisglobal.testresult.service.TestResultService;
 import org.springframework.beans.factory.UnsatisfiedDependencyException;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -69,7 +68,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
         "org.openelisglobal.typeofsample", "org.openelisglobal.siteinformation", "org.openelisglobal.qaevent",
         "org.openelisglobal.sampleproject", "org.openelisglobal.project", "org.openelisglobal.sampleqaevent",
         "org.openelisglobal.image", "org.openelisglobal.common.services", "org.openelisglobal.referral",
-        "org.openelisglobal.analysisqaevent" }, excludeFilters = {
+        "org.openelisglobal.analysisqaevent", "org.openelisglobal.testresult" }, excludeFilters = {
                 @ComponentScan.Filter(type = FilterType.REGEX, pattern = "org.openelisglobal.patient.controller.*"),
                 @ComponentScan.Filter(type = FilterType.REGEX, pattern = "org.openelisglobal.organization.controller.*"),
                 @ComponentScan.Filter(type = FilterType.REGEX, pattern = "org.openelisglobal.sample.controller.*"),
@@ -194,12 +193,6 @@ public class AppTestConfig implements WebMvcConfigurer {
     @Profile("test")
     public AuditTrailService auditTrailService() {
         return mock(AuditTrailService.class);
-    }
-
-    @Bean()
-    @Profile("test")
-    public TestResultService testResultService() {
-        return mock(TestResultService.class);
     }
 
     @Bean()
