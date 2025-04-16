@@ -9,7 +9,11 @@ import java.util.List;
 import lombok.NonNull;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.jasypt.util.text.TextEncryptor;
+import org.mockito.Mockito;
 import org.openelisglobal.audittrail.dao.AuditTrailService;
+import org.openelisglobal.common.services.DisplayListService;
+import org.openelisglobal.common.services.RequesterService;
+import org.openelisglobal.common.services.SampleOrderService;
 import org.openelisglobal.common.util.Versioning;
 import org.openelisglobal.dataexchange.fhir.FhirConfig;
 import org.openelisglobal.dataexchange.fhir.FhirUtil;
@@ -69,11 +73,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
         "org.openelisglobal.observationhistorytype", "org.openelisglobal.statusofsample", "org.openelisglobal.test",
         "org.openelisglobal.analyzerimport", "org.openelisglobal.analyzer", "org.openelisglobal.testanalyte",
         "org.openelisglobal.observationhistory", "org.openelisglobal.systemusersection",
-        "org.openelisglobal.typeofsample", "org.openelisglobal.siteinformation", "org.openelisglobal.qaevent",
-        "org.openelisglobal.sampleproject", "org.openelisglobal.project", "org.openelisglobal.sampleqaevent",
-        "org.openelisglobal.image", "org.openelisglobal.common.services", "org.openelisglobal.referral",
-        "org.openelisglobal.analysisqaevent", "org.openelisglobal.testresult",
-        "org.openelisglobal.citystatezip" }, excludeFilters = {
+        "org.openelisglobal.citystatezip", "org.openelisglobal.typeofsample", "org.openelisglobal.siteinformation",
+        "org.openelisglobal.config", "org.openelisglobal.image", "org.openelisglobal.testresult",
+        "org.openelisglobal.barcode", "org.openelisglobal.referral", "org.openelisglobal.qaevent",
+        "org.openelisglobal.sampleproject", "org.openelisglobal.project",
+        "org.openelisglobal.sampleqaevent", "org.openelisglobal.common.services", "org.openelisglobal.analysisqaevent"
+        }, excludeFilters = {
+                @ComponentScan.Filter(type = FilterType.REGEX, pattern = "org.openelisglobal.barcode.controller.*"),
                 @ComponentScan.Filter(type = FilterType.REGEX, pattern = "org.openelisglobal.patient.controller.*"),
                 @ComponentScan.Filter(type = FilterType.REGEX, pattern = "org.openelisglobal.organization.controller.*"),
                 @ComponentScan.Filter(type = FilterType.REGEX, pattern = "org.openelisglobal.sample.controller.*"),
@@ -192,6 +198,30 @@ public class AppTestConfig implements WebMvcConfigurer {
     @Profile("test")
     public AuditTrailService auditTrailService() {
         return mock(AuditTrailService.class);
+    }
+
+    @Bean()
+    @Profile("test")
+    public DisplayListService displayListService() {
+        return mock(DisplayListService.class);
+    }
+
+    @Bean()
+    @Profile("test")
+    public SampleOrderService sampleOrderService() {
+        return mock(SampleOrderService.class);
+    }
+
+    @Bean()
+    @Profile("test")
+    public RequesterService requesterService() {
+        return mock(RequesterService.class);
+    }
+
+    @Bean
+    @Profile("test")
+    public FhirReferralService fhirReferralService() {
+        return Mockito.mock(FhirReferralService.class);
     }
 
     @Bean()
