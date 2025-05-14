@@ -11,6 +11,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.jasypt.util.text.TextEncryptor;
 import org.mockito.Mockito;
 import org.openelisglobal.audittrail.dao.AuditTrailService;
+import org.openelisglobal.barcode.controller.PrintBarcodeController;
 import org.openelisglobal.common.services.DisplayListService;
 import org.openelisglobal.common.services.RequesterService;
 import org.openelisglobal.common.services.SampleOrderService;
@@ -93,6 +94,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
                 @ComponentScan.Filter(type = FilterType.REGEX, pattern = "org.openelisglobal.config.*"),
                 @ComponentScan.Filter(type = FilterType.REGEX, pattern = "org.openelisglobal.fhir.*"),
                 @ComponentScan.Filter(type = FilterType.REGEX, pattern = "org.openelisglobal.*.fhir.*"),
+                @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = PrintBarcodeController.class),
                 @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WHONetReportServiceImpl.class) })
 @EnableWebMvc
 public class AppTestConfig implements WebMvcConfigurer {
